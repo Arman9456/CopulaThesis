@@ -108,6 +108,11 @@ Simul2 <- function(T,N,rho_12,rho_13,rho_23){
   alpha2vecIVCOP <- rep(0,N)
   betavecIVCOP <- rep(0,N) # exogenous variable coefficients to fill up
   
+  alpha1vecIVCOPREV <- rep(0,N) # endogenous variable coefficients to fill up
+  alpha2vecIVCOPREV <- rep(0,N)
+  betavecIVCOPREV <- rep(0,N) # exogenous variable coefficients to fill up
+  
+  
   
   for(i in 1:N){
   
@@ -175,6 +180,11 @@ Simul2 <- function(T,N,rho_12,rho_13,rho_23){
   alpha2vecIVCOP[i] =   fitIVCOP[[2]]
   betavecIVCOP[i] =   fitIVCOP[[3]]
   
+  fitIVCOPREV = IVCOPMIX1REVERSE(Y2,X2,P1,P2,Z1,Z2)
+  alpha1vecIVCOPREV[i] =   fitIVCOPREV[[1]]
+  alpha2vecIVCOPREV[i] =   fitIVCOPREV[[2]]
+  betavecIVCOPREV[i] =   fitIVCOPREV[[3]]
+  
 
   }
   
@@ -182,27 +192,31 @@ Simul2 <- function(T,N,rho_12,rho_13,rho_23){
   MeanGCstimates = c(mean(alpha1vecGC)-alpha1,mean(alpha2vecGC)-alpha2,mean(betavecGC)-beta2)
   MeanIVEstimates = c(mean(alpha1vecIV)-alpha1,mean(alpha2vecIV)-alpha2,mean(betavecIV)-beta2)
   MeanIVCOPEstimates = c(mean(alpha1vecIVCOP)-alpha1,mean(alpha2vecIVCOP)-alpha2,mean(betavecIVCOP)-beta2)
+  MeanIVCOPREVEstimates = c(mean(alpha1vecIVCOPREV)-alpha1,mean(alpha2vecIVCOPREV)-alpha2,mean(betavecIVCOPREV)-beta2)
   
   
   hist(alpha1vecOLS-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias OLS")
   hist(alpha1vecGC-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias GC")
   hist(alpha1vecIV-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IV")
   hist(alpha1vecIVCOP-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IVCOP")
+  hist(alpha1vecIVCOPREV-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IVCOP Reverse")
   
   hist(alpha2vecOLS-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias OLS")
   hist(alpha2vecGC-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias GC")
   hist(alpha2vecIV-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IV")
   hist(alpha2vecIVCOP-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IVCOP")
-  
+  hist(alpha2vecIVCOPREV-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IVCOP Reverse")
   
   hist(betavecOLS-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias OLS")
   hist(betavecGC-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias GC")
   hist(betavecIV-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IV")
   hist(betavecIVCOP-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IVCOP")
+  hist(betavecIVCOPREV-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IVCOP Reverse")
   
-MatrixOfMeanEstimates = matrix(c(MeanOLSEstimates,MeanGCstimates,MeanIVEstimates,MeanIVCOPEstimates),ncol=4)
+  
+MatrixOfMeanEstimates = matrix(c(MeanOLSEstimates,MeanGCstimates,MeanIVEstimates,MeanIVCOPEstimates,MeanIVCOPREVEstimates),ncol=5)
 rownames(MatrixOfMeanEstimates) <- c("alpha1","alpha2","beta")
-colnames(MatrixOfMeanEstimates) <- c("Bias OLS", "Bias GC","Bias IV","Bias IVCOP")
+colnames(MatrixOfMeanEstimates) <- c("Bias OLS", "Bias GC","Bias IV","Bias IVCOP", "Bias IVCOP Reverse")
 return(MatrixOfMeanEstimates)
   
   

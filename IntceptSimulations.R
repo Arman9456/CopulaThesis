@@ -96,6 +96,11 @@ Simul2INT <- function(T,N,rho_12,rho_13,rho_23){
   alpha2vecIVCOP <- rep(0,N)
   betavecIVCOP <- rep(0,N) # exogenous variable coefficients to fill up
   
+  intceptvecIVCOPREV <- rep(0,N) # intercept coefficients to fill up
+  alpha1vecIVCOPREV <- rep(0,N) # endogenous variable coefficients to fill up
+  alpha2vecIVCOPREV <- rep(0,N)
+  betavecIVCOPREV <- rep(0,N) # exogenous variable coefficients to fill up
+  
   
   for(i in 1:N){
     
@@ -164,16 +169,25 @@ Simul2INT <- function(T,N,rho_12,rho_13,rho_23){
     betavecIVCOP[i] =   fitIVCOP[[4]]
     
     
+    fitIVCOPREV = IVCOPMIX1REVERSEINT(Y2,X2,P1,P2,Z1,Z2)
+    intceptvecIVCOPREV[i] =   fitIVCOPREV[[1]]
+    alpha1vecIVCOPREV[i] =   fitIVCOPREV[[2]]
+    alpha2vecIVCOPREV[i] =   fitIVCOPREV[[3]]
+    betavecIVCOPREV[i] =   fitIVCOPREV[[4]]
+    
+    
+    
   }
   
   MeanOLSEstimates = c(mean(intceptvecOLS)-intcpt2[1],mean(alpha1vecOLS)-alpha1,mean(alpha2vecOLS)-alpha2,mean(betavecOLS)-beta2)
   MeanGCstimates = c(mean(intceptvecGC)-intcpt2[1],mean(alpha1vecGC)-alpha1,mean(alpha2vecGC)-alpha2,mean(betavecGC)-beta2)
   MeanIVEstimates = c(mean(intceptvecIV)-intcpt2[1],mean(alpha1vecIV)-alpha1,mean(alpha2vecIV)-alpha2,mean(betavecIV)-beta2)
   MeanIVCOPEstimates = c(mean(intceptvecIVCOP)-intcpt2[1],mean(alpha1vecIVCOP)-alpha1,mean(alpha2vecIVCOP)-alpha2,mean(betavecIVCOP)-beta2)
+  MeanIVCOPREVEstimates = c(mean(intceptvecIVCOPREV)-intcpt2[1],mean(alpha1vecIVCOPREV)-alpha1,mean(alpha2vecIVCOPREV)-alpha2,mean(betavecIVCOPREV)-beta2)
   
-  MatrixOfMeanEstimates = matrix(c(MeanOLSEstimates,MeanGCstimates,MeanIVEstimates,MeanIVCOPEstimates),ncol=4)
+  MatrixOfMeanEstimates = matrix(c(MeanOLSEstimates,MeanGCstimates,MeanIVEstimates,MeanIVCOPEstimates,MeanIVCOPREVEstimates),ncol=5)
   rownames(MatrixOfMeanEstimates) <- c("intcpt","alpha1","alpha2","beta")
-  colnames(MatrixOfMeanEstimates) <- c("Bias OLS", "Bias GC","Bias IV","Bias IVCOP")
+  colnames(MatrixOfMeanEstimates) <- c("Bias OLS", "Bias GC","Bias IV","Bias IVCOP", "Bias IVCOP Reverse")
   return(MatrixOfMeanEstimates)
   
   

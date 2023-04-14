@@ -58,6 +58,23 @@ return(theta_cop3$coefficients)
 
 }
 
+IVCOPMIX1REVERSE <- function(Y,X,P1,P2,Z1,Z2){
+  
+  firstStageRegressors = matrix(c(Z1,Z2,X),ncol=3) # regress P2 on all instruments as well as regressor X2 which is also used as instrument
+  # sO P2 = beta1_1sls * Z1 + beta2_1sls * Z2 + beta3_1sls * X2
+  
+  beta_2SLS = inv(t(firstStageRegressors)%*%(firstStageRegressors)) %*% (t(firstStageRegressors) %*% P2)  
+  P2_hat = beta_2SLS[1]*Z1+beta_2SLS[2]*Z2+beta_2SLS[3]*X # form estimated endogenous variable P1
+  
+  #estimate new original equation with P1_hat plugged into it instead of P1 by GC for endogenous regressor P2 since P1_hat is now considered exogenous
+  
+  dataMatrix = data.frame(Y,P1,P2_hat,X)
+  theta_cop3 = copulaCorrection(Y~P1+P2_hat+X-1|continuous(P1),data= dataMatrix,num.boots=2)
+  return(theta_cop3$coefficients) 
+  
+  
+}
+
 
 OLS3 <- function(Y,X,P1,P2,P3,T){
   
