@@ -17,8 +17,8 @@ set.seed(6187807) # make results reproducable
 
 
 
-N = 1000 #Number of Simulations 
-T = 1000 # size of sample
+N = 100 #Number of Simulations 
+T = 100 # size of sample
 corr = 0.9 # correlation between error terms
 cov = corr* (sqrt(1))
 
@@ -138,6 +138,9 @@ IV2INT(Y2,X2,P1,P2,Z1,Z2)
 
 IVCOPMIX1(Y2,X2,P1,P2,Z1,Z2) #  Pretty decent estimates
 IVCOPMIX1INT(Y2,X2,P1,P2,Z1,Z2) # With intcpt
+
+IVCOPMIX1REVERSE(Y2,X2,P1,P2,Z1,Z2) 
+IVCOPMIX1REVERSEINT(Y2,X2,P1,P2,Z1,Z2) 
 
 results2 = Simul2(T,N,rho_12,rho_13,rho_23)
 results2

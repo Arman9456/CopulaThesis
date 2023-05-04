@@ -121,8 +121,8 @@ Simul2INT <- function(T,N,rho_12,rho_13,rho_23){
     Z1 = rgamma(n=T, shape = 1, rate = 0.5) # instrument for endogenous regressor P1 s.t. P1 is not normally distributed
     Z2 = rgamma(n=T,shape=2,2)  # could also use uniform distribution just like in Park & Gupta
     
-    P2 = Z2 + trivariate_errors[,3] 
-    P1 = Z1 + trivariate_errors[,2]
+    P2 = 0.5*Z2 + trivariate_errors[,3] 
+    P1 = 0.8*Z1 + trivariate_errors[,2]
     
     intcpt2 = rep(0.3,T)
     # Construct sample from DGP

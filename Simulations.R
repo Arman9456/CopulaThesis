@@ -133,8 +133,8 @@ Simul2 <- function(T,N,rho_12,rho_13,rho_23){
   Z1 = rgamma(n=T, shape = 1, rate = 1) # instrument for endogenous regressor P1 s.t. P1 is not normally distributed
   Z2 = rgamma(n=T,shape=1,0.5)  # could also use uniform distribution just like in Park & Gupta
   
-  P2 = Z2 + trivariate_errors[,3] 
-  P1 = Z1 + trivariate_errors[,2]
+  P2 = 0.5*Z2 + trivariate_errors[,3] 
+  P1 = 0.8*Z1 + trivariate_errors[,2]
   
   #intcpt2 = rep(0.3,T)
   # Construct sample from DGP
@@ -195,23 +195,23 @@ Simul2 <- function(T,N,rho_12,rho_13,rho_23){
   MeanIVCOPREVEstimates = c(mean(alpha1vecIVCOPREV)-alpha1,mean(alpha2vecIVCOPREV)-alpha2,mean(betavecIVCOPREV)-beta2)
   
   
-  hist(alpha1vecOLS-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias OLS")
-  hist(alpha1vecGC-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias GC")
-  hist(alpha1vecIV-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IV")
-  hist(alpha1vecIVCOP-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IVCOP")
-  hist(alpha1vecIVCOPREV-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IVCOP Reverse")
-  
-  hist(alpha2vecOLS-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias OLS")
-  hist(alpha2vecGC-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias GC")
-  hist(alpha2vecIV-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IV")
-  hist(alpha2vecIVCOP-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IVCOP")
-  hist(alpha2vecIVCOPREV-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IVCOP Reverse")
-  
-  hist(betavecOLS-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias OLS")
-  hist(betavecGC-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias GC")
-  hist(betavecIV-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IV")
-  hist(betavecIVCOP-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IVCOP")
-  hist(betavecIVCOPREV-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IVCOP Reverse")
+  # hist(alpha1vecOLS-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias OLS")
+  # hist(alpha1vecGC-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias GC")
+  # hist(alpha1vecIV-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IV")
+  # hist(alpha1vecIVCOP-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IVCOP")
+  # hist(alpha1vecIVCOPREV-alpha1,main = expression(paste("Distribution of Bias",(delta[1]))),xlab="Bias IVCOP Reverse")
+  # 
+  # hist(alpha2vecOLS-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias OLS")
+  # hist(alpha2vecGC-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias GC")
+  # hist(alpha2vecIV-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IV")
+  # hist(alpha2vecIVCOP-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IVCOP")
+  # hist(alpha2vecIVCOPREV-alpha2,main = expression(paste("Distribution of Bias",(delta[2]))),xlab="Bias IVCOP Reverse")
+  # 
+  # hist(betavecOLS-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias OLS")
+  # hist(betavecGC-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias GC")
+  # hist(betavecIV-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IV")
+  # hist(betavecIVCOP-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IVCOP")
+  # hist(betavecIVCOPREV-beta2,main = expression(paste("Distribution of Bias",(beta))),xlab="Bias IVCOP Reverse")
   
   
 MatrixOfMeanEstimates = matrix(c(MeanOLSEstimates,MeanGCstimates,MeanIVEstimates,MeanIVCOPEstimates,MeanIVCOPREVEstimates),ncol=5)
