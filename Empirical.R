@@ -36,8 +36,8 @@ BonusProm1 = Store1data$BONUS # endogenous without IV
 Instrument1 = log(Store2data$PRICE) # instrument
 Instrument2 = Store2data$BONUS # extra Instrument for 2SLS
 
-plot(RetailPrice1,type="l")
-plot(Instrument1,type="l")
+plot(RetailPrice1,type="l",ylab="log(RetailPrice1)",xlab= "Week")
+plot(Instrument1,type="l",ylab="log(RetailPrice2)",xlab= "Week")
 
 
 Timepoints = 1:length(RetailPrice1)
@@ -63,7 +63,15 @@ ivDiag(data=DataFrame,Y="Y1",D="BonusProm1",Z="Instrument2",controls="PriceRed1"
 
 
 
-hist(RetailPrice1)
+hist(RetailPrice1,xlab="Detrended log(RetailPrice1)",main="")
+hist(PriceRed1,main="")
+hist(BonusProm1,main="")
+
+shapiro.test(RetailPrice1)
+shapiro.test(BonusProm1)
+
+hist(Instrument1,xlab="Detrended log(RetailPrice2)",main="")
+
 
 ############# IVCOP below##################
 
@@ -79,6 +87,7 @@ dataMatrix = data.frame(Y1,RetailPrice1_hat,BonusProm1,PriceRed1)
 theta_cop3 = copulaCorrection(Y1~RetailPrice1_hat+BonusProm1+PriceRed1-1|continuous(BonusProm1),data= dataMatrix,num.boots=2)
 theta_cop3_const = copulaCorrection(Y1~RetailPrice1_hat+BonusProm1+PriceRed1|continuous(BonusProm1),data= dataMatrix,num.boots=2) # with constant
 
+summary(thet_cop3_const) # to get SE
 
 alpha1IVCOP =   theta_cop3$coefficients[[1]] # coeff for retailprice1_hat
 alpha2IVCOP =   theta_cop3$coefficients[[2]] # coeff for BonusProm1
@@ -107,6 +116,7 @@ alpha1IVconst =   theta_IV_Const$coefficients[[2]]
 alpha2IVconst =   theta_IV_Const$coefficients[[3]]
 betaIVconst =  theta_IV_Const$coefficients[[4]]
 
+summary(theta_IV_Const)
 
 ######### OLS below ################
 
@@ -120,6 +130,8 @@ XmatrixConst = matrix(c(c,RetailPrice1,BonusProm1,PriceRed1),ncol=4)
 theta_ols_const = inv(t(XmatrixConst)%*%(XmatrixConst)) %*% (t(XmatrixConst) %*% Y1)
 theta_ols_const
 
+doubleCheck = lm(Y1~RetailPrice1 + BonusProm1 + PriceRed1)
+summary(doubleCheck)
 
 ############ Copula Below ##########
 
@@ -129,5 +141,5 @@ theta_cop$coefficients
 theta_cop_const = copulaCorrection(Y1~RetailPrice1+BonusProm1+PriceRed1|continuous(RetailPrice1,BonusProm1), data= DataFrame,num.boots=2)
 theta_cop_const$coefficients
 
-
+summary(theta_cop_const)
 
