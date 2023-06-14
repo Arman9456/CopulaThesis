@@ -28,13 +28,26 @@ Store2data = subset(Store2data,PRICE!=0)
 Store1data = Store1data[Store1data$WEEK %in% Store2data$WEEK,]
 Store2data = Store2data[Store2data$WEEK %in% Store1data$WEEK,]
 
+
+InvestigateStore1 = TRUE
 # some of the variables are in logs, others are not like in Yang paper
-Y1 = log(Store1data$SALES)
-PriceRed1 = Store1data$PRICEREDU # exogenous
-RetailPrice1 = log(Store1data$PRICE) # endogenous with IV
-BonusProm1 = Store1data$BONUS # endogenous without IV
-Instrument1 = log(Store2data$PRICE) # instrument
-Instrument2 = Store2data$BONUS # extra Instrument for 2SLS
+
+if(InvestigateStore1){
+  Y1 = log(Store1data$SALES)
+  PriceRed1 = Store1data$PRICEREDU # exogenous
+  RetailPrice1 = log(Store1data$PRICE) # endogenous with IV
+  BonusProm1 = Store1data$BONUS # endogenous without IV
+  Instrument1 = log(Store2data$PRICE) # instrument
+  Instrument2 = Store2data$BONUS # extra Instrument for 2SLS
+} else{
+  Y1 = log(Store2data$SALES)
+  PriceRed1 = Store2data$PRICEREDU # exogenous
+  RetailPrice1 = log(Store2data$PRICE) # endogenous with IV
+  BonusProm1 = Store2data$BONUS # endogenous without IV
+  Instrument1 = log(Store1data$PRICE) # instrument
+  Instrument2 = Store1data$BONUS #
+}
+
 
 plot(RetailPrice1,type="l",ylab="log(RetailPrice1)",xlab= "Week")
 plot(Instrument1,type="l",ylab="log(RetailPrice2)",xlab= "Week")
@@ -87,7 +100,7 @@ dataMatrix = data.frame(Y1,RetailPrice1_hat,BonusProm1,PriceRed1)
 theta_cop3 = copulaCorrection(Y1~RetailPrice1_hat+BonusProm1+PriceRed1-1|continuous(BonusProm1),data= dataMatrix,num.boots=2)
 theta_cop3_const = copulaCorrection(Y1~RetailPrice1_hat+BonusProm1+PriceRed1|continuous(BonusProm1),data= dataMatrix,num.boots=2) # with constant
 
-summary(thet_cop3_const) # to get SE
+summary(theta_cop3_const) # to get SE
 
 alpha1IVCOP =   theta_cop3$coefficients[[1]] # coeff for retailprice1_hat
 alpha2IVCOP =   theta_cop3$coefficients[[2]] # coeff for BonusProm1
