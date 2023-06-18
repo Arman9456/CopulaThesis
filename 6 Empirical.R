@@ -1,10 +1,6 @@
+# Author: Arman Behbood
 # Code corresponding to Empirical application (section 4 of MSc thesis)
-# Retail price is endogenous, Bonus promotion as well
-# Prices of different stores are correlated and often used as IV for eachother
-# Direct price reduction variables is considered exogenous
-# following Park & Gupta
-# Use retail price of the other store as strong instrument for price
-# Use cop for Bonus promotion since no strong instrument
+
 library("REndo")
 library("MASS")
 library("matlib")
@@ -13,6 +9,13 @@ library("boot")
 library("ivDiag")
 
 load("C:/Users/arman/Desktop/Thesis MSC Copula/Empirical application R/store_level_data.RData")
+
+# Retail price is endogenous, Bonus promotion as well
+# Prices of different stores are correlated and often used as IV for eachother
+# Direct price reduction variables is considered exogenous
+# following Park & Gupta
+# Use retail price of the other store as strong instrument for price
+# Use cop for Bonus promotion since no strong instrument
 
 
 Storedata = store_dat
@@ -28,7 +31,7 @@ Store2data = subset(Store2data,PRICE!=0)
 Store1data = Store1data[Store1data$WEEK %in% Store2data$WEEK,]
 Store2data = Store2data[Store2data$WEEK %in% Store1data$WEEK,]
 
-
+# Boolean controlling which store we are investigating
 InvestigateStore1 = TRUE
 # some of the variables are in logs, others are not like in Yang paper
 

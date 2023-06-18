@@ -1,3 +1,4 @@
+# Author: Arman Behbood
 # Code corresponding to the simulations (section 3 of MSc thesis) for the cases without intercept
 
 Simul1 <- function(T,N,rho){
