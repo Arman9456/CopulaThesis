@@ -1,3 +1,4 @@
+# Code for all the functions that will be used to estimate OLS,GC and IVCOP without intercept
 
 
 OLS1 <- function(Y,X,P,T){

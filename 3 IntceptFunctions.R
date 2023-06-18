@@ -1,4 +1,5 @@
-# functions with Intcept
+# Code for all the functions that will be used to estimate OLS,GC and IVCOP with intercept
+
 
 OLS1INT <- function(Y,X,P,T){
   

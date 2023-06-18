@@ -1,3 +1,5 @@
+# Code corresponding to the simulations (section 3 of MSc thesis) for the cases with intercept
+
 Simul1INT <- function(T,N,rho){
   
   intceptvecOLS <- rep(0,N) # intercept coefficients to fill up

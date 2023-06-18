@@ -1,4 +1,4 @@
-# Empirical application
+# Code corresponding to Empirical application (section 4 of MSc thesis)
 # Retail price is endogenous, Bonus promotion as well
 # Prices of different stores are correlated and often used as IV for eachother
 # Direct price reduction variables is considered exogenous

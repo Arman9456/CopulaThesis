@@ -1,7 +1,4 @@
-
-#SIMUL1 IS FINISHED, STILL NEED TO FINISH SIMUL2!
-# WHY CANT I PUT NEW STUFF IN SIMUL1, ITS LIKE THE CODE ONLY RUNS WITH THE OLD VALUES
-# ->>> PRESS SOURCE, THAT WILL FIX THE ABOVE
+# Code corresponding to the simulations (section 3 of MSc thesis) for the cases without intercept
 
 Simul1 <- function(T,N,rho){
   

@@ -1,3 +1,9 @@
+# Author: Arman Behbood
+# Code for MSc thesis
+# This file contains the main code where all the simulations are run.
+# The empirical application is run separately in the file "6 Empirical.R"
+
+
 #install.packages("REndo")
 library("REndo")
 library("MASS")
